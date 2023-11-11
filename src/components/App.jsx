@@ -84,7 +84,7 @@ function App() {
 		<RecoilRoot>
 			<Router>
 				<Routes>
-					<Route path='/' element={<Home />} />
+					<Route path='/meuplantao' element={<Home />} />
 				</Routes>
 			</Router>
 		</RecoilRoot>
