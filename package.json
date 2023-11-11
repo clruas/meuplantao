@@ -5,11 +5,12 @@
   "type": "module",
   "homepage": "https://clruas.github.io/meuplantao",
   "scripts": {
-    "deploy": "gh-pages -d dist",
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "date-fns": "^2.30.0",
