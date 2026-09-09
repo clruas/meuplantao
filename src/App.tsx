@@ -3,7 +3,24 @@ import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
+import { addDaysISO, daysBetween, isDateWithinRange, toDate, toISODate } from './utils/dateHelpers'
 
+
+function App(){
+  const date = toDate('2026-09-08')
+  const dateIso = toISODate(new Date())
+  const dias = daysBetween('2026-08-01', '2026-09-01')
+  const estaDentro = isDateWithinRange('2026-07-16', '2026-08-01', '2026-09-01')
+  console.log(dias)
+  console.log(estaDentro)
+  console.log(dateIso, addDaysISO(dateIso, 3))
+  return (
+    <>
+      <h1>Meu plantao</h1>
+    </>
+  )
+}
+/*
 function App() {
   const [count, setCount] = useState(0)
 
@@ -118,5 +135,6 @@ function App() {
     </>
   )
 }
+*/
 
 export default App
