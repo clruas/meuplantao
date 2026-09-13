@@ -35,6 +35,12 @@ export type ShiftPauseInput = {
   reason?: string;
 };
 
+export type ConfirmationStatusChangeInput = {
+  status: ConfirmationStatus;
+  countsAsEarnings?: boolean;
+  swapCoworkerName?: string;
+};
+
 export interface AppState {
   // --- dados persistidos ---
   shifts: Shift[];
@@ -53,6 +59,10 @@ export interface AppState {
   updateShift: (id: string, changes: ShiftEditableFields) => ActionResult;
   closeShift: (id: string) => ActionResult;
   deleteShift: (id: string) => ActionResult;
+  updateConfirmationStatus: (
+    confirmationId: string,
+    input: ConfirmationStatusChangeInput
+  ) => ActionResult;
 
   // --- actions de Coverage e ShiftPause ---
   addCoverage: (input: CoverageInput) => ActionResult<string>;

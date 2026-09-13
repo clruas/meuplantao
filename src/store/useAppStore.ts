@@ -6,6 +6,8 @@ import { wouldCreateConflict } from '../utils/conflictDetection';
 import { canCreateCoverage } from '../utils/coverageValidation';
 import { generatePendingConfirmations } from '../utils/confirmationGenerator';
 import { addDaysISO } from '../utils/dateHelpers';
+import { applyConfirmationStatusChange } from '../utils/confirmationStatusChange';
+
 
 import type { AppState, ShiftInput, ShiftEditableFields, CoverageInput, ShiftPauseInput } from './types';
 import type { Shift } from '../types';
@@ -139,6 +141,23 @@ export const useAppStore = create<AppState>()(
           const pause = createShiftPause(input);
           set((prev) => ({ pauses: [...prev.pauses, pause] }));
           return { success: true, data: pause.id };
+        } catch (error) {
+          return { success: false, error: messageFrom(error) };
+        }
+      },
+
+      updateConfirmationStatus: (confirmationId, input) => {
+        const confirmation = get().confirmations.find((c) => c.id === confirmationId);
+        if (!confirmation) {
+          return { success: false, error: 'Efetivação não encontrada.' };
+        }
+
+        try {
+          const updated = applyConfirmationStatusChange({ confirmation, ...input });
+          set((prev) => ({
+            confirmations: prev.confirmations.map((c) => (c.id === confirmationId ? updated : c)),
+          }));
+          return { success: true, data: undefined };
         } catch (error) {
           return { success: false, error: messageFrom(error) };
         }
