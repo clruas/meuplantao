@@ -34,13 +34,13 @@ export function MonthGrid({ days, period, onSelectDay} : MonthGridProps){
             </div> */}
             <div className="grid grid-cols-7 gap-1">
                 {leadingBlanks.map((key) => (
-                    <div key={key}>antes</div>
+                    <div key={key} />
                 ))}
                 {days.map((day) => (
                     <DayCell key={day.date} day={day} isCurrentPeriod onSelect={onSelectDay} />
                 ))}
                 {trailingBlanks.map((key) => (
-                    <div key={key}>depois</div>
+                    <div key={key} />
                 ))}
             </div>
         </div>
