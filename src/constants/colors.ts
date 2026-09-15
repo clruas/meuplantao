@@ -1,0 +1,1 @@
+export const COVERAGE_COLOR = '#f97316';

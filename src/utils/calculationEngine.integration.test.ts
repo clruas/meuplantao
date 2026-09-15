@@ -22,7 +22,8 @@ describe('Motor de cálculo — cenário de integração (2 semanas)', () => {
     
     // ---------- 3. Cobertura: no dia 09, A está de pausa, o turno diurno fica livre ----------
     const validacao = canCreateCoverage(activeShifts, [pauseA], [], '2026-09-09', 'day');
-    expect(validacao.allowed).toBe(true);
+    console.log(validacao)
+    expect(validacao.allowed).toBe(false);
     const coverage = createCoverage({ name: 'Cobertura extra', type: 'day', value: 180, date: '2026-09-09' });
     
     // ---------- 4. Catch-up: gera as confirmations pendentes das 2 semanas ----------

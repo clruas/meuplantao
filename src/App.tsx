@@ -4,19 +4,21 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
 import { addDaysISO, daysBetween, isDateWithinRange, toDate, toISODate } from './utils/dateHelpers'
-
+import { BottomTabBar } from './components/bottomTabBar'
+import { ReportPage } from './pages/reportPage'
+import { CalendarPage } from './pages/calendarPage'
 
 function App(){
-  const date = toDate('2026-09-08')
-  const dateIso = toISODate(new Date())
-  const dias = daysBetween('2026-08-01', '2026-09-01')
-  const estaDentro = isDateWithinRange('2026-07-16', '2026-08-01', '2026-09-01')
-  console.log(dias)
-  console.log(estaDentro)
-  console.log(dateIso, addDaysISO(dateIso, 3))
+  const [activeTab, setActiveTab] = useState('calendar');
   return (
     <>
-      <h1>Meu plantao</h1>
+      <div>
+        <div className="flex-1 overflow-hidden">
+          {activeTab === 'calendar' && <CalendarPage />}
+          {activeTab === 'report' && <ReportPage />}
+        </div>
+        <BottomTabBar activeTab={activeTab} onSelectTab={setActiveTab} />
+      </div>
     </>
   )
 }
