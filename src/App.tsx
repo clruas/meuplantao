@@ -1,43 +1,32 @@
 import { useState } from "react"
 import { BottomTabBar } from "./components/bottomTabBar"
+import { CalendarDays, CalendarRange, ChevronLeft, ChevronRight, Grid3x3, Moon, Rows3, Sun } from "lucide-react"
+import clsx from "clsx";
+import { CalendarViewMode } from "./types/common";
+import { CalendarHeader } from "./components/calendarHeader";
+import { toISODate } from "./utils/dateHelpers";
+import { CalendarPage } from "./pages/calendarPage";
 
-function Header(){
-
-}
-
-function MonthGrid(){
-
-}
-
-function WeekGrid(){
+function CalendarMonthGrid(){
 
 }
 
-function CalendarTab(){
+function CalendarWeekGrid(){
+
+}
+
+function ReportPage(){
   return <>
-    <div>
-      <div>Setembro 2026</div>
-    </div>
-    <div>Summary</div>
-    <div className="flex-1 overflow-y-scroll">
-      { Array.from({ length: 50 }).map(item => <div>ops</div>)}
-    </div>
-    <div>Teste</div>
-  </>
-}
-
-function ReportTab(){
-  return <>
-    <div>Report</div>
+    <PageHeader>Report</PageHeader>
     <div className="flex-1 overflow-y-scroll">
       { Array.from({ length: 50 }).map(item => <div>ops</div>)}
     </div>
   </>
 }
 
-function UserTab(){
+function UserPage(){
   return <>
-    <div>User</div>
+    <PageHeader>User</PageHeader>
     <div className="flex-1 overflow-y-scroll">
       { Array.from({ length: 50 }).map(item => <div>ops</div>)}
     </div>
@@ -49,9 +38,9 @@ function App(){
   return (
     <>
       <div className="flex flex-col h-dvh">
-        {activeTab === 'calendar' && <CalendarTab />}
-        {activeTab === 'report' && <ReportTab />}
-        {activeTab === 'user' && <UserTab />}
+        {activeTab === 'calendar' && <CalendarPage />}
+        {activeTab === 'report' && <ReportPage />}
+        {activeTab === 'user' && <UserPage />}
         <BottomTabBar activeTab={activeTab} onSelectTab={setActiveTab} />
       </div>
     </>
