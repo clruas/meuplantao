@@ -43,7 +43,7 @@ export function DayDetailSheet({ day, onClose, onGoToManagement }: DayDetailShee
   return (
     <>
       <div className="fixed inset-0 z-30 bg-black/40" onClick={onClose} />
-      <div className="fixed inset-x-0 bottom-0 z-40 max-h-[80vh] overflow-y-auto rounded-t-2xl bg-white p-4 shadow-lg">
+      <div className="fixed inset-x-0 bottom-0 z-40 max-h-[80vh] overflow-y-auto rounded-t-[3px] bg-white p-4 shadow-lg">
         <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-slate-200" />
         <h2 className="mb-3 text-sm font-semibold text-slate-800">{day.date}</h2>
 

@@ -1,4 +1,4 @@
-import { addDays, format as frmt, parseISO, startOfDay } from "date-fns";
+import { addDays, differenceInCalendarDays, format as frmt, parseISO, startOfDay } from "date-fns";
 import { ptBR } from "date-fns/locale"
 import type { ISODateString } from "../types/common";
 
@@ -16,4 +16,8 @@ export function addDaysISO(iso: ISODateString, amount: number): ISODateString {
 
 export function format(date, formatStr){
     return frmt(date, formatStr, { locale: ptBR })
+}
+
+export function daysBetween(a: ISODateString, b: ISODateString): number {
+  return differenceInCalendarDays(toDate(b), toDate(a));
 }

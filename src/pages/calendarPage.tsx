@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { format, toDate, toISODate } from "../utils/dateHelpers";
+import { addDaysISO, format, toDate, toISODate } from "../utils/dateHelpers";
 import { CalendarHeader } from "../components/calendarHeader";
 import { MONTH_NAMES, WEEKDAY_LABELS } from "../types/common";
 import clsx from "clsx";
@@ -8,26 +8,36 @@ import { getPeriodRange, shiftReferenceDate } from "../utils/periodRange";
 import { PageHeader } from "../components/pageHeader";
 import { CalendarMonthGrid } from "../components/calendarMonthgrid";
 import { CalendarWeekGrid } from "../components/calendarWeekGrid";
+import { useCalendarRange } from "../hooks/useCalendarRange";
+import { DayDetailSheet } from "../components/dayDetailSheet";
 
 function formatPeriodLabel(mode, period){
-    const start = toDate(period.start);
+    
     if (mode === 'month') {
+        const start = toDate(addDaysISO(period.start, 7))
         return `${MONTH_NAMES[start.getMonth()]} de ${start.getFullYear()}`;
+    } else {
+        const start = toDate(period.start);
+        const end = toDate(period.end);
+        return `${format(start, 'dd.MMM').toUpperCase()} a ${format(end, 'dd.MMM').toUpperCase()}`
     }
-    const end = toDate(period.end);
-    return `${format(start, 'dd.MMM').toUpperCase()} a ${format(end, 'dd.MMM').toUpperCase()}`
 }
 
 export function CalendarPage(){
     const [viewMode, setViewMode] = useState('month')
     const [referenceDate, setReferenceDate] = useState(() => toISODate(new Date()));
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
     const goNext = () => setReferenceDate(old => shiftReferenceDate(old, viewMode, 1))
     const goPrevious = () => setReferenceDate(old => shiftReferenceDate(old, viewMode, -1))
 
     const period = getPeriodRange(referenceDate, viewMode)
+    const days = useCalendarRange(period)
 
-    //console.log('PAGE', viewMode, referenceDate, period)
+    const selectedDay = days.find((d) => d.date === selectedDate) ?? null;
+    
+    //console.clear()
+    //console.log('PAGE', selectedDate, selectedDay)
 
     return <>
         <PageHeader>
@@ -39,9 +49,16 @@ export function CalendarPage(){
                 periodLabel={formatPeriodLabel(viewMode, period)}
             />
         </PageHeader>
-        <div className="flex-1">
-            {viewMode == 'month' ? <CalendarMonthGrid /> : <CalendarWeekGrid /> }
+        <div className="flex-1 flex">
+            {viewMode == 'month' 
+                ? <CalendarMonthGrid period={period} days={days} selectedDate={selectedDate} onSelectDay={setSelectedDate} />
+                : <CalendarWeekGrid period={period} days={days} selectedDate={selectedDate} onSelectDay={setSelectedDate} /> 
+            }
         </div>
+        <div className="p-2 bg-neutral-50">Somatorio</div>
+        {selectedDay  && (
+            <DayDetailSheet day={selectedDay} onClose={e=>setSelectedDate(null)} />
+        )}
   </>
 }
 

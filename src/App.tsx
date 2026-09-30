@@ -6,6 +6,7 @@ import { CalendarViewMode } from "./types/common";
 import { CalendarHeader } from "./components/calendarHeader";
 import { toISODate } from "./utils/dateHelpers";
 import { CalendarPage } from "./pages/calendarPage";
+import { PageHeader } from "./components/pageHeader";
 
 function CalendarMonthGrid(){
 

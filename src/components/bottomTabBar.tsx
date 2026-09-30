@@ -8,7 +8,7 @@ export function BottomTabBar({ activeTab, onSelectTab }){
       onClick={e => onSelectTab(tab.id)}
       className={clsx(
         'flex-1 flex justify-center items-center py-4 transition-all',
-        activeTab === tab.id ? 'bg-neutral-200 text-orange-500' : 'text-neutral-500'
+        activeTab === tab.id ? 'bg-neutral-200 text-orange-500' : 'text-neutral-400'
       )}
     >
       <tab.icon />

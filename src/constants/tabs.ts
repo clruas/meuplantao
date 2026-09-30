@@ -1,4 +1,4 @@
-import { CalendarDays, CircleDollarSign, Stethoscope, User } from "lucide-react"
+import { CalendarDays, CircleDollarSign, Settings, Stethoscope, User } from "lucide-react"
 
 interface TabDefinition {
   id: string;
@@ -10,4 +10,5 @@ export const APP_TABS: TabDefinition[] = [
   { id: 'calendar', label: 'Plantões', icon: Stethoscope },
   { id: 'report', label: 'Relatório', icon: CircleDollarSign },
   { id: 'user', label: 'Usuário', icon: User },
+  { id: 'config', label: 'Configurações', icon: Settings }
 ];
