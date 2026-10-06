@@ -15,7 +15,7 @@ export function addDaysISO(iso: ISODateString, amount: number): ISODateString {
 }
 
 export function format(date, formatStr){
-    return frmt(date, formatStr, { locale: ptBR })
+  return frmt(typeof(date) === 'string' ? toDate(date) : date, formatStr, { locale: ptBR })
 }
 
 export function daysBetween(a: ISODateString, b: ISODateString): number {

@@ -13,11 +13,38 @@ export interface PeriodRange {
   end: ISODateString;
 }
 
+/** Turno do plantão: diurno (07h–19h) ou noturno (19h–07h) */
+export type ShiftType = 'day' | 'night';
+
+/** Situação do vínculo de plantão (não da ocorrência diária) */
+export type ShiftStatus = 'active' | 'closed';
+
 export interface Shift {
   id: string
   name: string
+  type: ShiftType
+  value: number
   startDate: ISODateString;
   color: string
+  status: ShiftStatus
+}
+
+export type ConfirmationStatus =
+  | 'completed'
+  | 'absence'
+  | 'illness'
+  | 'swap'
+  | 'hospitalization';
+
+export interface Confirmation {
+  id: string;
+  shiftId: string;
+  date: ISODateString;
+  type: ShiftType;
+  value: number;
+  status: ConfirmationStatus;
+  countsAsEarnings: boolean;
+  swapCoworkerName?: string;
 }
 
 export interface CalendarDay {

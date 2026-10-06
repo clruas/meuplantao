@@ -1,11 +1,5 @@
-import type {
-  Shift,
-  Confirmation,
-  Coverage,
-  ShiftPause,
-  ShiftType,
-  ConfirmationStatus,
-} from '../types';
+import type { Confirmation, ISODateString } from "../types/common";
+import { addDaysISO, toDate, daysBetween } from "./dateHelpers";
 
 export function createShift(input: {
   name: string;
@@ -22,6 +16,52 @@ export function createShift(input: {
     status: 'active',
     ...input,
   };
+}
+
+export type DayStatus = 'active' | 'off' | 'paused'
+
+export function getShiftStatusForDate(
+    shift: Shift,
+    pauses: ShiftPause[],
+    date: ISODateString
+): DayStatus {
+    // const relevantPause = pauses.find(
+    //     (p) => p.shiftId === shift.id && isDateWithinRange(date, p.startDate, p.endDate)
+    // );
+    // if (relevantPause) return 'paused';
+    // const diff = daysBetween(shift.startDate, date);
+    // // Math.abs evita que datas anteriores ao startDate invertam a paridade
+    // // (diff negativo em JS não segue a mesma regra de par/ímpar que diff positivo)
+    // return Math.abs(diff) % 2 === 0 ? 'active' : 'off';
+
+    if (date < shift.startDate) {
+        return 'off';
+    }
+
+    const isPaused = pauses.some((p) => isDateWithinRange(date, p.startDate, p.endDate));
+    if (isPaused) {
+        return 'paused';
+    }
+
+    const diff = daysBetween(shift.startDate, date);
+    return Math.abs(diff) % 2 === 0 ? 'active' : 'off';
+}
+
+export interface GenerateResult {
+  confirmations: Confirmation[];
+  newLastSync: ISODateString;
+}
+
+/** Horário em que o turno termina, como Date real (com hora) — usado só pro corte de catch-up */
+function getShiftEndDateTime(shift: Shift, date: ISODateString): Date {
+  const base = toDate(date);
+  if (shift.type === 'day') {
+    return new Date(base.getFullYear(), base.getMonth(), base.getDate(), 19, 0, 0);
+  }
+  // noturno termina 07h do dia SEGUINTE ao início do plantão
+  const nextDay = new Date(base);
+  nextDay.setDate(nextDay.getDate() + 1);
+  return new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 7, 0, 0);
 }
 
 export function createConfirmation(input: {
@@ -62,36 +102,6 @@ export function createConfirmation(input: {
     status: input.status,
     countsAsEarnings,
     swapCoworkerName: input.swapCoworkerName,
-  };
-}
-
-export function createCoverage(input: {
-  name: string;
-  type: ShiftType;
-  value: number;
-  date: string;
-}): Coverage {
-  if (input.value < 0) {
-    throw new Error('Valor da cobertura não pode ser negativo');
-  }
-  return {
-    id: crypto.randomUUID(),
-    ...input,
-  };
-}
-
-export function createShiftPause(input: {
-  shiftId: string;
-  startDate: string;
-  endDate: string;
-  reason?: string;
-}): ShiftPause {
-  if (input.endDate < input.startDate) {
-    throw new Error('Data de fim da pausa não pode ser anterior à data de início');
-  }
-  return {
-    id: crypto.randomUUID(),
-    ...input,
   };
 }
 

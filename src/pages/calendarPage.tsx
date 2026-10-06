@@ -12,7 +12,6 @@ import { useCalendarRange } from "../hooks/useCalendarRange";
 import { DayDetailSheet } from "../components/dayDetailSheet";
 
 function formatPeriodLabel(mode, period){
-    
     if (mode === 'month') {
         const start = toDate(addDaysISO(period.start, 7))
         return `${MONTH_NAMES[start.getMonth()]} de ${start.getFullYear()}`;
@@ -37,7 +36,7 @@ export function CalendarPage(){
     const selectedDay = days.find((d) => d.date === selectedDate) ?? null;
     
     //console.clear()
-    //console.log('PAGE', selectedDate, selectedDay)
+    console.log('PAGE', selectedDate, selectedDay)
 
     return <>
         <PageHeader>

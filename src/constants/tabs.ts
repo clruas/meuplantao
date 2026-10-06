@@ -7,7 +7,7 @@ interface TabDefinition {
 }
 
 export const APP_TABS: TabDefinition[] = [
-  { id: 'calendar', label: 'Plantões', icon: Stethoscope },
+  { id: 'calendar', label: 'Plantões', icon: CalendarDays },
   { id: 'report', label: 'Relatório', icon: CircleDollarSign },
   { id: 'user', label: 'Usuário', icon: User },
   { id: 'config', label: 'Configurações', icon: Settings }
