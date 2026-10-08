@@ -3,7 +3,13 @@ import type { CalendarDay, PeriodRange, Shift } from "../types/common";
 import { useAppStore } from "../store/useAppStore";
 import { addDaysISO, daysBetween } from "../utils/dateHelpers";
 
-function buildCalendarRange(shifts: Shift[], period: PeriodRange){
+function buildCalendarRange(
+    shifts: Shift[], 
+    pauses: ShiftPause[],
+    coverages: Coverage[],
+    confirmations: Confirmation[], 
+    period: PeriodRange
+){
     //console.log('Hook', period)
     const totalDays = daysBetween(period.start, period.end)
     const days = []
@@ -22,8 +28,12 @@ function buildCalendarRange(shifts: Shift[], period: PeriodRange){
 
 export function useCalendarRange(period: PeriodRange): CalendarDay[] {
     const shifts = useAppStore(s => s.shifts)
+    const pauses = useAppStore((s) => s.pauses);
+    const coverages = useAppStore((s) => s.coverages);
+    const confirmations = useAppStore((s) => s.confirmations);
+
     return useMemo(
-        () => buildCalendarRange(shifts, period),
-        [shifts, period]
+        () => buildCalendarRange(shifts, pauses, coverages, confirmations, period),
+        [shifts, pauses, coverages, confirmations, period]
     )
 }

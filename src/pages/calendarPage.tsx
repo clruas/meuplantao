@@ -36,7 +36,7 @@ export function CalendarPage(){
     const selectedDay = days.find((d) => d.date === selectedDate) ?? null;
     
     //console.clear()
-    console.log('PAGE', selectedDate, selectedDay)
+    console.log('PAGE', days, selectedDate, selectedDay)
 
     return <>
         <PageHeader>

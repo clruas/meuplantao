@@ -29,6 +29,14 @@ export interface Shift {
   status: ShiftStatus
 }
 
+export interface Coverage {
+  id: string;
+  name: string;
+  type: ShiftType;
+  value: number;
+  date: ISODateString;
+}
+
 export type ConfirmationStatus =
   | 'completed'
   | 'absence'
@@ -48,8 +56,10 @@ export interface Confirmation {
 }
 
 export interface CalendarDay {
-  date: ISODateString
-  activeShifts: Shift[]
+  date: ISODateString;
+  activeShifts: Shift[];
+  coverage?: Coverage;
+  confirmations: Confirmation[];
 }
 
 export interface CalendarGridProps {

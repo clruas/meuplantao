@@ -46,20 +46,10 @@ export function DayDetailSheet({ day, onClose }: DayDetailSheetProps){
     function handleNewShift(){ console.log('Novo plantao') }
     function handleNewCoverage(){ console.log('Nova cobertura') }
 
+
     const isEmpty = day.activeShifts.length === 0 && !day.coverage;
     
-    // const date = {
-    //     day: format(toDate(day.date), 'dd'),
-    //     dayOfWeek: format(toDate(day.date), 'EEEEEE'),
-    //     month: format(toDate(day.date), 'MM'),
-    //     monthName: format(toDate(day.date), 'MMM').toUpperCase(),
-    //     year: format(toDate(day.date), 'yyyy'),
-    // }
-    
-    // console.clear()
-    // console.log(day, date)
-    console.log(isEmpty)
-
+    console.log(day)
 
     return <>
         <div
@@ -110,6 +100,17 @@ export function DayDetailSheet({ day, onClose }: DayDetailSheetProps){
 
 
 /////////////// BACKUP E TESTES
+
+// const date = {
+    //     day: format(toDate(day.date), 'dd'),
+    //     dayOfWeek: format(toDate(day.date), 'EEEEEE'),
+    //     month: format(toDate(day.date), 'MM'),
+    //     monthName: format(toDate(day.date), 'MMM').toUpperCase(),
+    //     year: format(toDate(day.date), 'yyyy'),
+    // }
+    
+    // console.clear()
+    // console.log(day, date)
 
 // const icons = [
 //        <Check size={16} strokeWidth={2.5} />,
