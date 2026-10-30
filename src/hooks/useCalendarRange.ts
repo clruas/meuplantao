@@ -20,7 +20,10 @@ function buildCalendarRange(
         );
         days.push({
             date,
-            activeShifts
+            activeShifts,
+            //coverage: coverages.find((c) => c.date === date),
+            coverages: coverages.filter((c) => c.date === date),
+            confirmations: confirmations.filter((c) => c.date === date),
         })
     }
     return days

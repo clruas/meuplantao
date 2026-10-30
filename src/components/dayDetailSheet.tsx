@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import type { CalendarDay } from "../types/common";
 import { format, toDate } from "../utils/dateHelpers";
-import { Ban, Calendar, CalendarDays, CalendarPlus, CalendarSync, Check, ChevronLeft, DollarSign, Dot, Hospital, Moon, RefreshCw, SquarePen, Sun, X } from "lucide-react";
+import { ArrowRightLeft, Ban, Calendar, CalendarDays, CalendarPlus, CalendarSync, Check, ChevronLeft, DollarSign, Dot, Hospital, Moon, RefreshCw, SquarePen, Sun, X } from "lucide-react";
 import clsx from "clsx";
 import { cn } from "../utils/styles";
+import { isShiftActiveOn } from "../utils/shiftRecurrence";
+import { ShiftItem } from "./shiftIem";
+import { ShifItemList } from "./shiftItemList";
 
 function Button1({ children }){
     return <button className="flex-1 bg-orange-500 flex items-center justify-center gap-2 rounded-sm p-2 text-white text-sm">{ children }</button>
@@ -21,6 +24,20 @@ function Button({ primary, label, onClick, className, icon: Icon }){
         {Icon && <Icon size={16} />}
         <span>{label}</span>
     </button>
+}
+
+function DetailSheetItem({ mode, type, name }){
+    return (
+        <div className={cn('bg-mist-100 rounded-sm p-2 flex items-center gap-2', mode == 'cover' && 'bg-mist-200')}>
+            <div className={cn('', type == 'day' ? 'text-amber-400' : 'text-indigo-300')}>
+                {type == 'day' ? <Sun size={16} /> : <Moon size={16} /> }
+            </div>
+            <div className="text-xs text-mist-400">
+                {mode == 'cover' ? <ArrowRightLeft size={16} /> : ''}
+            </div>
+            <div className="text-sm">{name}</div>
+        </div>
+    )
 }
 
 interface DayDetailSheetProps {
@@ -43,13 +60,19 @@ export function DayDetailSheet({ day, onClose }: DayDetailSheetProps){
         setTimeout(onClose, TRANSITION_DURATION); // desmonta só depois dela terminar
     }
 
+    function onGoToManagement(){}
+
     function handleNewShift(){ console.log('Novo plantao') }
     function handleNewCoverage(){ console.log('Nova cobertura') }
 
+    const shifts = day.activeShifts.filter(shift => isShiftActiveOn(shift, day.date))
 
-    const isEmpty = day.activeShifts.length === 0 && !day.coverage;
+    //const isEmpty = day.activeShifts.length === 0 && !day.coverage;
+
+    const isEmpty = shifts.length === 0 && day.coverages.length === 0
     
-    console.log(day)
+    //console.log(day)
+    //console.clear()
 
     return <>
         <div
@@ -64,7 +87,7 @@ export function DayDetailSheet({ day, onClose }: DayDetailSheetProps){
             }`}
         >
 
-            <div className="flex items-center gap-2 px-2 py-3">
+            <div className="flex items-center gap-2 px-2 pt-3 pb-1">
                 <div className="text-neutral-600" onClick={handleClose}>
                     <ChevronLeft />
                 </div>
@@ -77,21 +100,18 @@ export function DayDetailSheet({ day, onClose }: DayDetailSheetProps){
             </div>
 
             { isEmpty && (
-                <div className="rounded-lg bg-slate-50 p-4 text-sm text-slate-500">
-                    Nenhum plantão neste dia.{' '}
-                    <button type="button" onClick={onGoToManagement} className="text-sky-600 underline">
-                        Ir para gerenciamento de plantões
-                    </button>
+                <div className="rounded-md bg-neutral-100 p-4 text-sm text-slate-500 mx-2">
+                    Nenhum plantão ou cobertura neste dia.
                 </div>
             )}
 
-            <div className="flex flex-col gap-2 px-2 pb-2">
-                {}
+            <div className="flex flex-col p-2 gap-1">
+                <ShifItemList mode="detail" day={day} />
             </div>
 
             <div className="flex gap-2 px-2 pb-2 h-12">
                 <Button label="Novo plantão" icon={CalendarPlus} onClick={handleNewShift} className="flex-1" />
-                <Button primary label="Nova cobertura" icon={CalendarSync} onClick={handleNewCoverage} className="flex-1" />
+                <Button primary label="Nova cobertura" icon={ArrowRightLeft} onClick={handleNewCoverage} className="flex-1" />
             </div>
 
         </div>

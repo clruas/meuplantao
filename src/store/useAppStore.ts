@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type { Shift } from "../types/common";
-import { createShift, generatePendingConfirmations } from "../utils/factories";
+import { createCoverage, createShift, generatePendingConfirmations } from "../utils/factories";
 import { addDaysISO } from "../utils/dateHelpers";
 
 interface AppState {
@@ -41,7 +41,25 @@ export const useAppStore = create<AppState>()(
                         }
                         lastSyncByShift[shift.id] = newLastSync;
                     }
-                    return { confirmations, lastSyncByShift };
+                    const shifts = [
+                        createShift({ name: 'Plantao daniel', type: 'day', value: 200, startDate: '2026-09-29' }),
+                        //createShift({ name: 'HU', type: 'day', value: 200, startDate: '2026-10-02' }),
+                    ]
+                    const coverages = [
+                        //createCoverage({ name: 'Cobertura fernanda', type: 'night', value: 200, date: '2026-10-04' }),
+                        //createCoverage({ name: 'Cobertura texto grande', type: 'night', value: 200, date: '2026-10-10' }),
+                        //createCoverage({ name: 'Cobertura noite', type: 'night', value: 200, date: '2026-10-14' }),
+                        //createCoverage({ name: 'Cobertura dia', type: 'day', value: 200, date: '2026-10-14' }),
+                        //createCoverage({ name: 'Cobertura noite', type: 'night', value: 200, date: '2026-10-11' }),
+                        //createCoverage({ name: 'Cobertura noite', type: 'night', value: 200, date: '2026-10-23' }),
+                        createCoverage({ name: 'Cobertura Tamires - Eleicao', type: 'day', value: 200, date: '2026-10-04' }),
+                        createCoverage({ name: 'Cobertura Tamires', type: 'day', value: 200, date: '2026-10-26' }),
+                        createCoverage({ name: 'Cobertura Tamires', type: 'day', value: 200, date: '2026-11-01' }),
+                    ]
+
+                    //const shifts = []
+                    //console.log(shifts)
+                    return { confirmations, lastSyncByShift, coverages };
                 })
             },
         }),
@@ -54,10 +72,7 @@ export const useAppStore = create<AppState>()(
                     console.error('Falha ao reidratar o estado do Meu Plantão:', error);
                     return;
                 }
-                
-                //console.clear()
-                //console.log('Rehydrate runned...')
-
+                console.log('STATE:', state)
                 state?.setHasHydrated(true);               
                 state?.runCatchUp();
             }

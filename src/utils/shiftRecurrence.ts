@@ -7,3 +7,7 @@ export function isShiftDay(startDate, dateToCheck) {
 
   return diffInDays % 2 === 0; // par = dia de plantão, ímpar = folga
 }
+
+export function isShiftActiveOn(shift, date){
+  return date >= shift.startDate && isShiftDay(shift.startDate, date)
+}

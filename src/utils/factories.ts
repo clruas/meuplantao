@@ -18,6 +18,36 @@ export function createShift(input: {
   };
 }
 
+export function createCoverage(input: {
+  name: string;
+  type: ShiftType;
+  value: number;
+  date: string;
+}): Coverage {
+  if (input.value < 0) {
+    throw new Error('Valor da cobertura não pode ser negativo');
+  }
+  return {
+    id: crypto.randomUUID(),
+    ...input,
+  };
+}
+
+export function createShiftPause(input: {
+  shiftId: string;
+  startDate: string;
+  endDate: string;
+  reason?: string;
+}): ShiftPause {
+  if (input.endDate < input.startDate) {
+    throw new Error('Data de fim da pausa não pode ser anterior à data de início');
+  }
+  return {
+    id: crypto.randomUUID(),
+    ...input,
+  };
+}
+
 export type DayStatus = 'active' | 'off' | 'paused'
 
 export function getShiftStatusForDate(

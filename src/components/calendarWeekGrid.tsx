@@ -2,10 +2,12 @@ import { getDate } from "date-fns";
 import { WEEKDAY_LABELS, type CalendarGridProps } from "../types/common";
 import { toDate } from "../utils/dateHelpers";
 import { Sun } from "lucide-react";
-import { isShiftDay } from "../utils/shiftRecurrence";
+import { isShiftActiveOn, isShiftDay } from "../utils/shiftRecurrence";
 import clsx from "clsx";
 import { CalendarItem } from "./calendarItem";
 import { useState } from "react";
+import { ShiftItem } from "./shiftIem";
+import { ShifItemList } from "./shiftItemList";
 
 export function CalendarWeekGrid({ period, days, selectedDate, onSelectDay }: CalendarGridProps){
     const [selected, setSelected] = useState(false)
@@ -20,7 +22,8 @@ export function CalendarWeekGrid({ period, days, selectedDate, onSelectDay }: Ca
                 const monthDay = getDate(toDate(day.date))
                 const isToday = toDate(day.date).getDate() == new Date().getDate()
                 const isSelected = day.date === selectedDate;
-                return <div 
+                return <div
+                    key={idx}
                     onClick={e => onSelectDay(day.date)}
                     className={clsx('flex border-neutral-100 border-b transition-all', isSelected && 'bg-neutral-100')} 
                 >
@@ -28,8 +31,8 @@ export function CalendarWeekGrid({ period, days, selectedDate, onSelectDay }: Ca
                         <div className={clsx("uppercase text-[10px] text-neutral-300", isToday && 'text-orange-700/50')}>{WEEKDAY_LABELS[idx]}</div>
                         <div className={clsx("text-xl text-neutral-600", isToday && 'text-orange-700')}>{monthDay}</div>
                     </div>
-                    <div className="flex-1 flex">
-                        
+                    <div className="flex-1 flex p-0.5 gap-0.5">
+                        <ShifItemList mode="week" day={day} />
                     </div>
                 </div>
             })}
