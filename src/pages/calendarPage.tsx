@@ -1,14 +1,14 @@
 import { useState } from "react";
 import Page from "../components/page";
-import { toISODate } from "../utils/dateHelpers";
+import { format, toISODate } from "../utils/dateHelpers";
 import { ViewMode } from "../utils/types";
 import { CalendarHeader } from "../components/calendarHeader";
 import { addDays } from "date-fns";
 
-// export interface PeriodRange {
-//   start: ISODateString;
-//   end: ISODateString;
-// }
+interface Period {
+    start: Date
+    end: Date
+}
 
 function getReferenceDate(referenceDate: Date, viewMode: ViewMode, direction: 1 | -1 ) {
     if (viewMode === 'week') {
@@ -17,24 +17,7 @@ function getReferenceDate(referenceDate: Date, viewMode: ViewMode, direction: 1 
     return new Date(referenceDate.getFullYear(), referenceDate.getMonth() + direction, 1)
 }
 
-function getPeriod(referenceDate: Date, viewMode: ViewMode) {
-    // const date = toDate(reference);
-    
-    // if (mode === 'week') {
-    //     const weekday = date.getDay(); // 0 = domingo
-    //     const start = toISODate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - weekday));
-    //     return { start, end: addDaysISO(start, 6) };
-    // }
-    
-    // const firstWeekday = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-    // const lastDayDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    // const lastWeekday = lastDayDate.getDay();
-    
-    // const start = toISODate(new Date(date.getFullYear(), date.getMonth(), 1 - firstWeekday));
-    // const end = addDaysISO(start, 41)
-    
-    // return { start, end }
-
+function getPeriod(referenceDate: Date, viewMode: ViewMode): Period {
     if(viewMode == ViewMode.Week){
         const weekday = referenceDate.getDay(); // 0 = domingo
         const start = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate() - weekday);
@@ -44,6 +27,14 @@ function getPeriod(referenceDate: Date, viewMode: ViewMode) {
     const start = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), 1 - firstWeekday)
     const end = addDays(start, 41)
     return { start, end }
+}
+
+function formatPeriodLabel(viewMode: ViewMode, period: Period){
+    if (viewMode === ViewMode.Month) {
+        return format(addDays(period.start, 7), "MMMM 'de' Y")
+    } else {
+        return `${format(period.start, 'dd/MM/yy')} a ${format(period.end, 'dd/MM/yy')}`
+    }
 }
 
 export function CalendarPage(){
@@ -70,7 +61,7 @@ export function CalendarPage(){
                 onChangeViewMode={setViewMode}
                 onNext={goNext}
                 onPrevious={goPrevious}
-                //periodLabel={formatPeriodLabel(viewMode, period)}
+                periodLabel={formatPeriodLabel(viewMode, period)}
             />
         </Page.Header>
         <Page.Body className="flex-col">
