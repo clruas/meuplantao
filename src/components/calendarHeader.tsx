@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight, Grid3x3, Rows3 } from "lucide-react";
+import { ViewMode } from "../utils/types";
 import { cn } from "../utils/cn";
-import type { ViewMode } from "../utils/types";
 
 interface CalendarHeaderProps {
     viewMode: ViewMode
@@ -20,10 +20,11 @@ function HeaderButton({ selected, onClick, icon: Icon }){
 }
 
 export function CalendarHeader({ viewMode, onChangeViewMode, onNext, onPrevious, periodLabel }: CalendarHeaderProps){
+    const isMonth = viewMode == ViewMode.Month
     return <>
         <div className="flex-1 flex items-center justify-between gap-2">
             <HeaderButton icon={ChevronLeft} onClick={onPrevious} />
-            <span className="font-bold">{periodLabel}</span>
+            <span className={cn("font-bold", isMonth ? 'text-base' : 'text-sm')}>{periodLabel}</span>
             <HeaderButton icon={ChevronRight} onClick={onNext} />
         </div>
         <div className="flex">

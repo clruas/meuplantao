@@ -1,7 +1,7 @@
-import { getWeekLabels } from "../utils/dateHelpers";
+import { cn } from "../utils/cn";
+import { format, getWeekLabels } from "../utils/dateHelpers";
 
-//export function CalendarMonthGrid({ period, days, selectedDate, onSelectDay }:CalendarGridProps){
-export function CalendarMonthGrid(){
+export function CalendarMonthGrid({ days, selectedDate, onSelectDate }){
     const labels = getWeekLabels()
     return <div className="flex-1 flex flex-col">
         <div className="grid grid-cols-7 text-xs">
@@ -10,18 +10,19 @@ export function CalendarMonthGrid(){
             )}
         </div>
         <div className="flex-1 grid grid-cols-7 border-neutral-100 border-l border-t">
-            {/* {days.map((day, idx) => {
-                const isToday = format(toDate(day.date), 'ddMM') == format(new Date(), 'ddMM') 
-                const monthDay = getDate(toDate(day.date))
+            {days.map((day, idx) => {
+                const isToday = format(day.date, 'ddMM') == format(new Date(), 'ddMM')
+                const monthDay = day.date.getDate()
                 const isSelected = day.date === selectedDate;
-
-                return <div key={idx} className={clsx('flex flex-col border-neutral-100 border-b border-r', isSelected && 'bg-mist-100')} onClick={e => onSelectDay(day.date)}>
-                    <div className={clsx('text-neutral-400 text-[10px] pl-0.5 pt-0.5', isToday && 'font-black text-orange-500')}>{monthDay}</div>
-                    <div className="flex-1 flex flex-col gap-0.5 p-0.5">        
-                        <ShifItemList mode="month" day={day} />
+                return (
+                    <div key={idx} className={cn('flex flex-col border-neutral-100 border-b border-r', isSelected && 'bg-mist-100')} onClick={e => onSelectDate(day.date)}>
+                        <div className={cn('text-neutral-400 text-[10px] pl-0.5 pt-0.5', isToday && 'font-black text-orange-500')}>{monthDay}</div>
+                        <div className="flex-1 flex flex-col gap-0.5 p-0.5">        
+                            {/* <ShifItemList mode="month" day={day} /> */}
+                        </div>
                     </div>
-                </div>
-            })} */}
+                )
+            })}
         </div>
     </div>
 }
