@@ -9,6 +9,10 @@ export function toISODate(date: Date): ISODateString {
     return frmt(date, 'yyy-MM-dd')
 }
 
+export function getWeekLabels(){
+  return ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB']
+}
+
 /*
 export function toDate(iso: ISODateString): Date {
     return startOfDay(parseISO(iso))

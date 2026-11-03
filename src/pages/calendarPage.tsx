@@ -4,6 +4,8 @@ import { format, toISODate } from "../utils/dateHelpers";
 import { ViewMode } from "../utils/types";
 import { CalendarHeader } from "../components/calendarHeader";
 import { addDays } from "date-fns";
+import { CalendarMonthGrid } from "../components/calendarMonthGrid";
+import { CalendarWeekGrid } from "../components/calendarWeekGrid";
 
 interface Period {
     start: Date
@@ -50,9 +52,9 @@ export function CalendarPage(){
 
     //const selectedDay = days.find((d) => d.date === selectedDate) ?? null;
 
-    console.log(viewMode)
-    console.log(toISODate(referenceDate))
-    console.log(period)
+    //console.log(viewMode)
+    //console.log(toISODate(referenceDate))
+    //console.log(period)
 
     return <Page>
         <Page.Header>
@@ -65,8 +67,10 @@ export function CalendarPage(){
             />
         </Page.Header>
         <Page.Body className="flex-col">
-            <div>{viewMode}</div>
-            <div>{toISODate(referenceDate)}</div>
+            {viewMode == ViewMode.Month
+                ? <CalendarMonthGrid />
+                : <CalendarWeekGrid />
+            }
         </Page.Body>
         <Page.Footer>footer</Page.Footer>
     </Page>
