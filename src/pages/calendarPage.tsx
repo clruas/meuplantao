@@ -3,7 +3,7 @@ import Page from "../components/page";
 import { format, toISODate } from "../utils/dateHelpers";
 import { ViewMode } from "../utils/types";
 import { CalendarHeader } from "../components/calendarHeader";
-import { addDays } from "date-fns";
+import { addDays, isEqual } from "date-fns";
 import { CalendarMonthGrid } from "../components/calendarMonthGrid";
 import { CalendarWeekGrid } from "../components/calendarWeekGrid";
 import '../store/useAppStore.ts'
@@ -52,14 +52,16 @@ export function CalendarPage(){
     const period = getPeriod(referenceDate, viewMode)
     const days = useCalendarRange(period)
 
-    const selectedDay = days.find(d => d.date === selectedDate) ?? null;
+    //const selectedDay = days.find(d => d.date === selectedDate) ?? null;
+    const selectedDay = days.find(d => isEqual(d.date, selectedDate)) ?? null;
 
     //console.log(viewMode)
     //console.log(toISODate(referenceDate))
     //console.log(period)
-    //console.clear()
+    console.clear()
     //console.log(days)
-   
+    //console.log(days, selectedDate, selectedDay)
+    //console.log(selectedDate, selectedDay)
 
     return <Page>
         <Page.Header>
@@ -80,5 +82,9 @@ export function CalendarPage(){
         <Page.Footer>
             <div>Lemprar de mudar as cor preta do CalendarHeader para cinza igual ao menu em baixo</div>
         </Page.Footer>
+        {selectedDay  && (
+            //<DayDetailSheet day={selectedDay} onClose={e=>setSelectedDate(null)} />
+            <div>detalhes</div>
+        )}
     </Page>
 }
