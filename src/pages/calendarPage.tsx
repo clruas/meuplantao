@@ -80,7 +80,7 @@ export function CalendarPage(){
             }
         </Page.Body>
         <Page.Footer>
-            <div>Lemprar de mudar as cor preta do CalendarHeader para cinza igual ao menu em baixo</div>
+            <div>Rodape</div>
         </Page.Footer>
         {selectedDay  && (
             //<DayDetailSheet day={selectedDay} onClose={e=>setSelectedDate(null)} />

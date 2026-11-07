@@ -13,7 +13,7 @@ interface CalendarHeaderProps {
 function HeaderButton({ selected, onClick, icon: Icon }){
     return <div 
         onClick={onClick}
-        className={cn("transition-all p-4 active:bg-neutral-300", selected && 'bg-neutral-200 text-orange-500')}
+        className={cn("transition-all p-4 text-mist-400 active:bg-neutral-300", selected && 'bg-neutral-200 text-orange-500')}
     >
         <Icon />
     </div>
@@ -24,7 +24,7 @@ export function CalendarHeader({ viewMode, onChangeViewMode, onNext, onPrevious,
     return <>
         <div className="flex-1 flex items-center justify-between gap-2">
             <HeaderButton icon={ChevronLeft} onClick={onPrevious} />
-            <span className={cn("font-bold", isMonth ? 'text-base' : 'text-sm')}>{periodLabel}</span>
+            <span className={cn("font-bold text-mist-600", isMonth ? 'text-base' : 'text-sm')}>{periodLabel}</span>
             <HeaderButton icon={ChevronRight} onClick={onNext} />
         </div>
         <div className="flex">
