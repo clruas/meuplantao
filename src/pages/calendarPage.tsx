@@ -59,8 +59,7 @@ export function CalendarPage(){
     //console.log(period)
     //console.clear()
     //console.log(days)
-
-    //Correcao da fonte da navegacao e criacao das visoes de mes e semana (sem os itens do plantao)
+   
 
     return <Page>
         <Page.Header>
@@ -78,6 +77,8 @@ export function CalendarPage(){
                 : <CalendarWeekGrid days={days} selectedDate={selectedDate} onSelectDate={setSelectedDate} />
             }
         </Page.Body>
-        <Page.Footer>footer</Page.Footer>
+        <Page.Footer>
+            <div>Lemprar de mudar as cor preta do CalendarHeader para cinza igual ao menu em baixo</div>
+        </Page.Footer>
     </Page>
 }

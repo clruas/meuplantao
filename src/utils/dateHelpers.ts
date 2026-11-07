@@ -13,6 +13,10 @@ export function getWeekLabels(){
   return ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB']
 }
 
+export function isToday(date: Date){
+  return format(date, 'ddMM') == format(new Date(), 'ddMM')
+}
+
 /*
 export function toDate(iso: ISODateString): Date {
     return startOfDay(parseISO(iso))

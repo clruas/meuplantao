@@ -1,3 +1,4 @@
+import { isBefore, isEqual } from "date-fns"
 import { create } from "zustand"
 
 type Service = any
@@ -26,10 +27,15 @@ const SERVICES: Service[] = [
 ];
 
 const DANIEL_DATES = [
-  '2026-10-01', '2026-10-03', '2026-10-05', '2026-10-07', '2026-10-09',
+  //'2026-10-01', '2026-10-03', '2026-10-05', '2026-10-07', '2026-10-09',
+  '2026-10-01', '2026-10-03',
   '2026-10-11', '2026-10-13', '2026-10-15', '2026-10-17', '2026-10-19',
-  '2026-10-21', '2026-10-23', '2026-10-25', '2026-10-27', '2026-10-29',
-  '2026-10-31', '2026-11-02',
+  //'2026-10-21', '2026-10-23', '2026-10-25', '2026-10-27', '2026-10-29',
+  '2026-10-21', '2026-10-23', '2026-10-25', '2026-10-29',
+  '2026-10-31', '2026-11-02', '2026-11-04', '2026-11-06', 
+  '2026-11-08', '2026-11-10', '2026-11-12', '2026-11-14', 
+  '2026-11-16', '2026-11-18', '2026-11-20', '2026-11-22', 
+  '2026-11-24', '2026-11-26', '2026-11-28', '2026-11-30', 
 ];
 
 const danielItems: ServiceItem[] = DANIEL_DATES.map((date) => ({
@@ -40,9 +46,55 @@ const danielItems: ServiceItem[] = DANIEL_DATES.map((date) => ({
   period: 'day',
   swapDate: null,
   value: 200,
-  status: 'completed',
+  status: isBefore(date, new Date()) ? 'completed' : 'scheduled',
   info: '',
 }));
+
+danielItems.push(
+{
+    id: `i-cov-2026-10-05`,
+    serviceId: 's1',
+    type: 'swap',
+    date: '2026-10-05',
+    period: 'day',
+    swapDate: '2026-10-04',
+    value: 200,
+    status: 'completed',
+    info: ''
+},
+{
+    id: `i-cov-2026-10-07`,
+    serviceId: 's1',
+    type: 'normal',
+    date: '2026-10-07',
+    period: 'night',
+    swapDate: null,
+    value: 200,
+    status: 'hospital',
+    info: ''
+},
+{
+    id: `i-cov-2026-10-09`,
+    serviceId: 's1',
+    type: 'normal',
+    date: '2026-10-09',
+    period: 'day',
+    swapDate: null,
+    value: 200,
+    status: 'pause',
+    info: ''
+},
+{
+    id: `i-cov-2026-10-27`,
+    serviceId: 's1',
+    type: 'normal',
+    date: '2026-10-27',
+    period: 'day',
+    swapDate: null,
+    value: 200,
+    status: 'absence',
+    info: ''
+})
 
 const coverageItems: ServiceItem[] = ['2026-10-31', '2026-11-01'].map((date) => ({
   id: `i-cov-${date}`,
@@ -55,6 +107,40 @@ const coverageItems: ServiceItem[] = ['2026-10-31', '2026-11-01'].map((date) => 
   status: 'completed',
   info: `Cobertura do dia ${date}`,
 }));
+
+coverageItems.push({
+    id: `i-cov-2026-11-01`,
+    serviceId: null, // cobertura avulsa, sem serviço
+    type: 'coverage',
+    date: '2026-11-01',
+    period: 'day',
+    swapDate: null,
+    value: 200,
+    status: 'completed',
+    info: 'Cobertura do dia 2026-11-01'
+},
+{
+    id: `i-cov-2026-10-28`,
+    serviceId: null, // cobertura avulsa, sem serviço
+    type: 'coverage',
+    date: '2026-10-28',
+    period: 'night',
+    swapDate: null,
+    value: 200,
+    status: 'absence',
+    info: 'Cobertura do dia 2026-10-28'
+},
+{
+    id: `i-cov-2026-11-07`,
+    serviceId: null, // cobertura avulsa, sem serviço
+    type: 'coverage',
+    date: '2026-11-07',
+    period: 'night',
+    swapDate: null,
+    value: 200,
+    status: 'scheduled',
+    info: 'Cobertura do dia 2026-11-07'
+})
 
 const ITEMS = [...danielItems, ...coverageItems]
 
